@@ -17,14 +17,17 @@ const usersSlice = createSlice({
       isArchiveOptions: isArchiveOptions,
    },
    reducers: {
+      // Функция поиска сотрудников по имени
       searchUsers(state, action){
          state.filtredUsers = state.users.filter(user =>user.name.toLowerCase().includes(action.payload.text))
          state.filters.role = 'all'
          state.filters.isArchive = 'all'
       },
+      // Перезаписывам сотрудников в исходное состояние
       resetUsers(state, action){
          state.filtredUsers = state.users;
       },
+      // Фильтрация сотрудников 
       filterUsers(state, action) {
          if(action.payload.role != undefined){
             state.filters.role = action.payload.role
@@ -45,11 +48,12 @@ const usersSlice = createSlice({
 
          sortUsers(state.filtredUsers, state.sort)
       },
+      // Сортировка сотрудников
       setSortUsers(state, action){
          if (action.payload.method != undefined && action.payload.method != '') {
             state.sort = action.payload.method
          }
-
+         // Вынес логику работы сортировки в отдельную функцию
          state.filtredUsers = sortUsers(state.filtredUsers, action.payload.method)
       },
    }
